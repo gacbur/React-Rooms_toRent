@@ -1,38 +1,377 @@
-.App {
+*{
+  padding:0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+}
+
+:root{
+  --primary-color:#6c766c; 
+  --primary-color-hover:#5c645c;
+  --secondary-color: #679167;
+  --secondary-color-hover: #547454;
+}
+
+.app-container{
+    position: relative;
+    min-height: 100vh;
+}
+
+.app-wrapper{
+  padding-bottom: 17em;
+}
+
+.nav{
+  display: flex;
+  color:white;
+  background-color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  flex-direction: column;
+}
+
+.nav-logo{
+  padding:1.3em;
+  position: relative;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nav-logo a{
+  text-decoration: none;
+  color:white;
+}
+
+.hamburger-btn{
+  position:absolute;
+  padding:0em;
+  right:5px;
+  top:10%;
+  width:30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 40px;
+  font-size: 25px;
+  cursor: pointer;
+  transition: .4s;
+}
+
+.hamburger-btn:hover{
+  transform: rotate(180deg);
+  transition: .4s;
+}
+
+.nav-links-cnt{
+  display: none;
+  flex-direction: column;
+}
+
+.nav-links-cnt.active{
+  display: flex;
+}
+
+.nav-link{
+  list-style: none;
   text-align: center;
+  display: flex;
+  width:100%
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.nav-link a{
+  border-top:1px solid lightgray;
+  width:100%;
+  color:white;
+  padding:1.3em;
+  background-color: var(--primary-color);
+  text-decoration: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.selected{
+  border-left: 10px solid var(--secondary-color);
+}
+
+.nav-link a:hover{
+  background-color: #5c645c;
+} 
+
+.baner-cnt{
+    width:100%;
+    display: flex;
   }
+
+.baner-img{
+  position: relative;
+  width:100%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.baner-img img{
+  width:100%;
+  filter: brightness(35%)
+}
+
+.baner-img-overlay{
+  position: absolute ;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
-.App-link {
-  color: #61dafb;
+.baner-img-overlay h2{
+  color:white;
+  margin-bottom:1em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.baner-img-overlay button{
+  padding:1em 2.2em;
+  cursor:pointer;
+  color:white;
+  background-color: var(--secondary-color);
+  border:none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+}
+
+.baner-img-overlay a{
+  text-decoration: none;
+  color:white;
+}
+
+.baner-img-overlay button:hover{
+  cursor: pointer;
+  background-color: var(--secondary-color-hover);
+}
+
+.main-descrpition{
+  width:100%;
+  margin-top:2em;
+}
+
+.description-cnt{
+  padding:1em 1.5em;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.description-icon{
+  padding-bottom:1em;
+  font-size: 30px;
+}
+
+.description-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding:1.5em;
+}
+
+.featured-rooms{
+  margin-top:2em;
+  margin-bottom: 8em;
+  width:100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.featured-rooms-wrap{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+   width:90%;
+}
+
+.featured-room{
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  overflow: hidden;
+  position: relative;
+  height: 300px;
+  width:300px;
+  margin-bottom: 2em;
+}
+
+.featured-room-img-cnt{
+  height: 300px;
+  width:300px;
+}
+
+.featured-room-img-cnt img{
+  width:300px;
+  height: 300px;
+}
+
+.featured-room-overlay{
+  visibility: hidden;
+  opacity: 0;
+  background-color: rgba(0,0,0,0.5);
+  height: 300px;
+  width: 300px;
+  position: absolute ;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  transition: .5s;
+}
+
+.featured-room:hover .featured-room-overlay{
+  visibility: visible;
+  opacity: 1;
+  transition: .5s;
+}
+
+.featured-room-overlay button{
+  margin-bottom: 1em;
+    padding:1.5em 3.2em;
+    cursor:pointer;
+    color:white;
+    background-color: var(--secondary-color);
+    border:none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+}
+
+.featured-room-overlay button:hover{
+    background-color: var(--secondary-color-hover);
+}
+
+.featured-room-overlay p{
+  padding: 1em 2.2em;
+    color:white;
+    background-color: var(--primary-color);
+    border:none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+}
+
+.footer{
+  background-color: var(--primary-color);
+  position: absolute;
+  width: 100%;
+  height: 17em;
+  bottom:0;
+}
+
+@media all and (min-width:768px){
+
+  .nav{
+    flex-direction: row;
   }
-  to {
-    transform: rotate(360deg);
+
+  .nav-logo{
+    margin-left: 2em;
   }
+
+  .hamburger-btn{
+    display: none;
+  }
+
+  .nav-links-cnt{
+    display: flex;
+    margin-right:15%;
+    flex-direction: row;
+  }
+
+  .nav-link a{
+    border-top:none;
+    padding:2em;
+  }
+
+  .baner-cnt{
+    overflow: hidden;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.7);
+    max-height: 800px;
+  }
+
+  .baner-img{
+    position: relative;
+    width:70%;
+    max-height: 800px;
+  }
+
+  .baner-img img{
+    width:100%;
+    filter: brightness(35%)
+  }
+
+  .main-descrpition{
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top:2em;
+  }
+  
+  .description-cnt{
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .description-icon{
+    padding-bottom:1em;
+    font-size: 30px;
+  }
+  
+  .description-item{
+    display: flex;
+    min-width: 200px;
+    max-width: 400px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    padding:1.5em;
+  }
+
+  .description-item:first-child{
+    margin:1em 1em;
+    min-width: 230px;
+  }
+
+  .description-item + .description-item{
+    margin:1em 1em;
+  }
+
+  .featured-rooms{
+    width:100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .featured-rooms h2{
+    margin-bottom: 2em;
+  }
+  
+  .featured-rooms-wrap{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+     width:90%;
+  }
+
+  .featured-room + .featured-room{
+    margin-left:5%;
+  }
+
+  .selected{
+    border-bottom: 5px solid var(--secondary-color);
+    border-left: none;
+  }
+
 }

@@ -4,9 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { RoomsGlobalContextProvider } from './context/RoomsGlobalContext'
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RoomsGlobalContextProvider>
+      <App />
+    </RoomsGlobalContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
