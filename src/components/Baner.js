@@ -10,7 +10,7 @@ const Baner = () => {
                 </img>
                 <div className="baner-img-overlay">
                     <h2>See our offer!</h2>
-                    <button><Link to="/rooms">Show available Rooms</Link></button>
+                    <Link className="btn-primary" to="/rooms">Show available Rooms</Link>
                 </div>
             </div>
         </div >

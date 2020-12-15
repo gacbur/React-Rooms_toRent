@@ -1,9 +1,11 @@
 import React from 'react'
 
+import RoomContainer from '../components/RoomContainer'
+
 const Rooms = () => {
     return (
         <div>
-            sdasdasdsa
+            <RoomContainer />
         </div>
     )
 }

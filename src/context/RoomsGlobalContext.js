@@ -9,7 +9,8 @@ const initialState = {
         {
             id: uuid(),
             name: 'Room for one Person',
-            guests: 1,
+            type: 'premium',
+            capacity: 1,
             price: 300,
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, dolorem asperiores? Libero voluptatum quidem quaerat aut in. Est dolores eaque laborum cum, atque aut, esse eum distinctio, sit cupiditate non quasi. Porro nulla nostrum minus eaque, eveniet eum iure id veritatis numquam animi beatae soluta dolorum fuga aperiam autem in?',
             pets: false,
@@ -20,7 +21,8 @@ const initialState = {
         {
             id: uuid(),
             name: 'Room for two People',
-            guests: 2,
+            type: 'basic',
+            capacity: 2,
             price: 200,
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, dolorem asperiores? Libero voluptatum quidem quaerat aut in. Est dolores eaque laborum cum, atque aut, esse eum distinctio, sit cupiditate non quasi. Porro nulla nostrum minus eaque, eveniet eum iure id veritatis numquam animi beatae soluta dolorum fuga aperiam autem in?',
             pets: false,
@@ -31,7 +33,8 @@ const initialState = {
         {
             id: uuid(),
             name: 'Room for three People',
-            guests: 3,
+            type: 'premium',
+            capacity: 3,
             price: 400,
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, dolorem asperiores? Libero voluptatum quidem quaerat aut in. Est dolores eaque laborum cum, atque aut, esse eum distinctio, sit cupiditate non quasi. Porro nulla nostrum minus eaque, eveniet eum iure id veritatis numquam animi beatae soluta dolorum fuga aperiam autem in?',
             pets: false,
@@ -42,7 +45,8 @@ const initialState = {
         {
             id: uuid(),
             name: 'Room for two People',
-            guests: 2,
+            type: 'basic',
+            capacity: 2,
             price: 150,
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, dolorem asperiores? Libero voluptatum quidem quaerat aut in. Est dolores eaque laborum cum, atque aut, esse eum distinctio, sit cupiditate non quasi. Porro nulla nostrum minus eaque, eveniet eum iure id veritatis numquam animi beatae soluta dolorum fuga aperiam autem in?',
             pets: false,
@@ -53,7 +57,8 @@ const initialState = {
         {
             id: uuid(),
             name: 'Room for one Person',
-            guests: 1,
+            type: 'premium',
+            capacity: 1,
             price: 400,
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, dolorem asperiores? Libero voluptatum quidem quaerat aut in. Est dolores eaque laborum cum, atque aut, esse eum distinctio, sit cupiditate non quasi. Porro nulla nostrum minus eaque, eveniet eum iure id veritatis numquam animi beatae soluta dolorum fuga aperiam autem in?',
             pets: false,
@@ -64,7 +69,8 @@ const initialState = {
         {
             id: uuid(),
             name: 'Room for one Person',
-            guests: 1,
+            type: 'basic',
+            capacity: 1,
             price: 100,
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, dolorem asperiores? Libero voluptatum quidem quaerat aut in. Est dolores eaque laborum cum, atque aut, esse eum distinctio, sit cupiditate non quasi. Porro nulla nostrum minus eaque, eveniet eum iure id veritatis numquam animi beatae soluta dolorum fuga aperiam autem in?',
             pets: false,
@@ -75,7 +81,8 @@ const initialState = {
         {
             id: uuid(),
             name: 'Room for two People',
-            guests: 2,
+            type: 'presidential',
+            capacity: 2,
             price: 500,
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, dolorem asperiores? Libero voluptatum quidem quaerat aut in. Est dolores eaque laborum cum, atque aut, esse eum distinctio, sit cupiditate non quasi. Porro nulla nostrum minus eaque, eveniet eum iure id veritatis numquam animi beatae soluta dolorum fuga aperiam autem in?',
             pets: false,
@@ -86,7 +93,8 @@ const initialState = {
         {
             id: uuid(),
             name: 'Room for four People',
-            guests: 4,
+            type: 'basic',
+            capacity: 4,
             price: 350,
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, dolorem asperiores? Libero voluptatum quidem quaerat aut in. Est dolores eaque laborum cum, atque aut, esse eum distinctio, sit cupiditate non quasi. Porro nulla nostrum minus eaque, eveniet eum iure id veritatis numquam animi beatae soluta dolorum fuga aperiam autem in?',
             pets: true,
@@ -97,7 +105,8 @@ const initialState = {
         {
             id: uuid(),
             name: 'Room for two People',
-            guests: 2,
+            type: 'presidential',
+            capacity: 2,
             price: 600,
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, dolorem asperiores? Libero voluptatum quidem quaerat aut in. Est dolores eaque laborum cum, atque aut, esse eum distinctio, sit cupiditate non quasi. Porro nulla nostrum minus eaque, eveniet eum iure id veritatis numquam animi beatae soluta dolorum fuga aperiam autem in?',
             pets: false,
@@ -107,7 +116,14 @@ const initialState = {
         }
     ],
     featuredRooms: [],
-    sortedRooms: []
+    sortedRooms: [],
+    type: "all",
+    capacity: 1,
+    price: 0,
+    minPrice: 0,
+    maxPrice: 0,
+    free_internet: false,
+    pets: false
 }
 
 export const RoomsGlobalContext = createContext()
@@ -117,10 +133,63 @@ export const RoomsGlobalContextProvider = (props) => {
     const [state, dispatch] = useReducer(roomsReducer, initialState)
 
     const getFeatured = () => { dispatch({ type: 'addToFeatured' }) }
+    const getSortedRooms = () => { dispatch({ type: 'addToSorted' }) }
+
+    const setSortingValues = () => {
+        let maxPrice = Math.max(...state.rooms.map(item => item.price))
+        dispatch({ type: 'setSortingValues', payload: maxPrice })
+    }
 
     useEffect(() => {
         getFeatured()
+        getSortedRooms()
+        setSortingValues()
     }, [])
+
+    const getRoom = (id) => {
+        let tempRooms = [...state.rooms]
+        const room = tempRooms.find(item => item.id === id)
+        return room
+    }
+
+    const handleChange = e => {
+        const target = e.target
+        const name = e.target.name
+        const value = target.type === 'checkbox' ?
+            target.checked : target.value
+
+        console.log("handle change wykonałem")
+
+        dispatch({
+            type: 'updateFilters', payload: {
+                name,
+                value
+            }
+        })
+
+        filterRooms()
+    }
+
+    const filterRooms = () => {
+
+        console.log("filterRooms dokonałem")
+
+        let {
+            rooms, type, capacity, price, minPrice, maxPrice, pets, free_internet
+        } = state
+
+        let tempRooms = [...rooms];
+
+        if (type !== "all") {
+            tempRooms = tempRooms.filter(room => room.type === type);
+
+        }
+
+        dispatch({
+            type: 'updateSortedRooms', payload: tempRooms
+        })
+
+    }
 
 
     return (
@@ -128,6 +197,8 @@ export const RoomsGlobalContextProvider = (props) => {
             rooms: state.rooms,
             featuredRooms: state.featuredRooms,
             sortedRooms: state.sortedRooms,
+            getRoom,
+            handleChange,
         }}>
             {props.children}
         </RoomsGlobalContext.Provider >
