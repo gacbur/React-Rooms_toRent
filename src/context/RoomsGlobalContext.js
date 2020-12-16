@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from 'react'
+import React, { createContext, useEffect, useState, useReducer } from 'react'
 
 import uuid from 'react-uuid'
 
@@ -119,7 +119,7 @@ const initialState = {
     sortedRooms: [],
     type: "all",
     capacity: 1,
-    price: 0,
+    price: 600,
     minPrice: 0,
     maxPrice: 0,
     free_internet: false,
@@ -131,6 +131,8 @@ export const RoomsGlobalContext = createContext()
 export const RoomsGlobalContextProvider = (props) => {
 
     const [state, dispatch] = useReducer(roomsReducer, initialState)
+
+    const [handleInputDone, setHandleInputDone] = useState(false)
 
     const getFeatured = () => { dispatch({ type: 'addToFeatured' }) }
     const getSortedRooms = () => { dispatch({ type: 'addToSorted' }) }
@@ -158,7 +160,7 @@ export const RoomsGlobalContextProvider = (props) => {
         const value = target.type === 'checkbox' ?
             target.checked : target.value
 
-        console.log("handle change wykonałem")
+        console.log("wywołuje")
 
         dispatch({
             type: 'updateFilters', payload: {
@@ -167,12 +169,10 @@ export const RoomsGlobalContextProvider = (props) => {
             }
         })
 
-        filterRooms()
+        setHandleInputDone(prevState => !prevState)
     }
 
     const filterRooms = () => {
-
-        console.log("filterRooms dokonałem")
 
         let {
             rooms, type, capacity, price, minPrice, maxPrice, pets, free_internet
@@ -180,16 +180,35 @@ export const RoomsGlobalContextProvider = (props) => {
 
         let tempRooms = [...rooms];
 
+        capacity = parseInt(capacity)
+        price = parseInt(price)
+
         if (type !== "all") {
             tempRooms = tempRooms.filter(room => room.type === type);
+        }
 
+        if (capacity !== 1) {
+            tempRooms = tempRooms.filter(room => room.capacity >= capacity)
+        }
+
+        tempRooms = tempRooms.filter(room => room.price <= price)
+
+        if (free_internet) {
+            tempRooms = tempRooms.filter(room => room.free_internet === true)
+        }
+
+        if (pets) {
+            tempRooms = tempRooms.filter(room => room.pets === true)
         }
 
         dispatch({
             type: 'updateSortedRooms', payload: tempRooms
         })
-
     }
+
+    useEffect(() => {
+        filterRooms()
+    }, [handleInputDone])
 
 
     return (
@@ -199,6 +218,13 @@ export const RoomsGlobalContextProvider = (props) => {
             sortedRooms: state.sortedRooms,
             getRoom,
             handleChange,
+            minPrice: state.minPrice,
+            maxPrice: state.maxPrice,
+            price: state.price,
+            type: state.type,
+            free_internet: state.free_internet,
+            pets: state.pets
+
         }}>
             {props.children}
         </RoomsGlobalContext.Provider >
